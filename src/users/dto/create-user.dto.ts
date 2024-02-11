@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
-  username: string;
+  phone: string;
 
   @IsString()
   @IsNotEmpty()

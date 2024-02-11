@@ -11,16 +11,19 @@ export class UsersService {
   constructor (@InjectModel(User.name) private userModel: Model<User>) {}
   async create (data: CreateUserDto) {
     try {
-      const username = await this.userModel.findOne({ username: data.username })
-      if (username) {
+      const phone = await this.userModel.findOne({ phone: data.phone })
+      if (phone) {
         throw new BadRequestException({
-          msg: 'Username allqachon foydalanilgan',
+          msg: 'Phone number allqachon foydalanilgan',
         })
       }
       data.password = await bcrypt.hash(data.password, saltOrRounds)
       return this.userModel.create(data)
     } catch (error) {
-      throw new BadRequestException({ msg: "Keyinroq urinib ko'ring..." })
+      throw new BadRequestException({
+        msg: "Keyinroq urinib ko'ring...",
+        error,
+      })
     }
   }
 
@@ -32,16 +35,12 @@ export class UsersService {
     }
   }
 
-  findOne (id) {
+  findOne (id : string) {
     try {
-      const user = this.userModel
-        .findById(id)
-        .select('-password')
+      const user = this.userModel.findById(id).select('-password')
       return user
     } catch (error) {
       throw new BadRequestException({ msg: "Keyinroq urinib ko'ring..." })
     }
   }
-
- 
 }
