@@ -24,7 +24,6 @@ export class AuthService {
     }
 
     const valid = bcrypt.compareSync(password, existing.password)
-    console.log(valid);
     if (!valid) {
       throw new UnauthorizedException('Telefon raqami yoki parol xato')
     }
